@@ -1,0 +1,70 @@
+Build your Python image:
+    https://docs.docker.com/language/python/build-images/
+
+Cheat Sheet Docker Commands:
+    https://dockerlabs.collabnix.com/docker/cheatsheet/#:~:text=The%20Ultimate%20Docker%20Cheat%20Sheet%201%20Table%20of,...%208%20Builder%20Main%20Commands%20...%20More%20items
+
+
+Windows - "Source is not recognized as an internal or external command":
+    https://bobbyhadz.com/blog/source-is-not-recognized-as-internal-or-external-command#:~:text=source%20is%20not%20recognized%20as%20an%20internal%20or,solve%20the%20error%2C%20use%20the%20venvScriptsactivate%20command%20instead.
+
+
+############################# TEST THE APPLICATION ############################
+$ cd /path/to/SCTP-SE-4.2-DevOps-Container-I-Flask-Docker-App-main
+$ python3 -m venv .venv
+$ source .venv/Scripts/Activate.ps1 OR Navigate and click on the 'Activate.ps1' the path directly from VSCode and PowerShell with launch on Terminal (VSCode).
+ 
+ ## PowerShell launch on Terminal (VSCode) ##
+ (.venv) $ python3 -m pip install Flask                     <-- Enter this command on the PowerShell (Terminal). // Install Flask dependencies.
+ (.venv) $ python3 -m pip freeze > requirements.txt         <-- Enter this command on the PowerShell (Terminal). // Create dependencies.
+
+ (.venv) $ python3 -m flask run                             <-- Enter this command on the PowerShell (Terminal). // Run the application to test it is running.
+
+!!  Application should be running on http://localhost:5000  !!
+
+###############################################################################
+
+
+#################### CREATE A DOCKERFILE for PYTHON ###########################
+- Create a Dockerfile in the current working directory (VSCode).
+- Add a line that tells Docker what base image to use for the application in the 'Dockerfile' (Line below).
+
+======= Directory Structure==========
+
+python-docker
+|____ app.py
+|____ requirements.txt
+|____ Dockerfile
+
+=====================================
+
+=============Dockerfile==============
+
+    # syntax=docker/dockerfile:1
+    FROM python:3.8-slim-buster
+    WORKDIR /app
+    COPY requirements.txt requirements.txt
+    RUN pip3 install -r requirements.txt
+    COPY . .
+    CMD ["python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+
+=====================================
+
+============Terminal CLI=============
+
+docker build -t "sampleflaskdockerapp" .
+docker run -d -p 5000:5000 757022fb349e // Start/Run new container from the <Image>.
+
+docker ps // List all running containers.
+docker ps -a // List all containers in the image.(Running and Stopped Containers).
+
+docker stop e4e87aeb7302
+docker restart e4e87aeb7302
+
+docker stop e4e87aeb7302
+docker rm e4e87aeb7302
+
+=====================================
+
+
+
